@@ -8,24 +8,24 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     git \
     wget \
-    ca-certificates
+    ca-certificates \
+    build-essential
 
 # Set Python default
 RUN ln -s /usr/bin/python3.10 /usr/bin/python
 
 WORKDIR /workspace
 
-# Clone Kohya dengan verbose
-RUN git clone --verbose https://github.com/bmaltais/kohya_ss.git
+# Clone Kohya
+RUN git clone https://github.com/bmaltais/kohya_ss.git
 
 WORKDIR /workspace/kohya_ss
 
-# Install requirements
+# Install dependencies manual (skip requirements.txt)
 RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
+    pip install torch torchvision gradio accelerate transformers
 
 # Expose port
 EXPOSE 3000
 
-# Start Kohya GUI
-CMD ["python", "kohya_gui.py", "--listen", "0.0.0.0", "--server_port", "3000"]
+CMD ["/bin/bash", "-c", "echo 'Ready' && tail -f /dev/null"]
