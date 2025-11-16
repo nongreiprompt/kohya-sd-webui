@@ -1,10 +1,11 @@
 FROM python:3.10-slim
 
-# Install dependencies sistem
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
     wget \
     python3-pip \
+    build-essential \
     && rm -rf /var/lib/apt/lists/*
 
 # Clone Kohya
@@ -12,15 +13,13 @@ RUN git clone https://github.com/bmaltais/kohya_ss.git /workspace/kohya_ss
 
 WORKDIR /workspace/kohya_ss
 
-# Install Python packages
+# Install dependencies
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt \
-    gradio \
     torch \
-    torchvision
+    torchvision \
+    gradio \
+    accelerate
 
-# Expose port untuk GUI
-EXPOSE 3000
-
-# Command default untuk start Kohya SS
-CMD ["python", "kohya_gui.py"]
+# Tambah debug command
+CMD ["/bin/bash", "-c", "pip list && python --version && ls"]
