@@ -19,4 +19,12 @@ RUN git clone https://github.com/bmaltais/kohya_ss.git
 
 WORKDIR /workspace/kohya_ss
 
-CMD ["/bin/bash", "-c", "echo 'Kohya cloned successfully' && tail -f /dev/null"]
+# Install requirements
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
+
+# Expose port
+EXPOSE 3000
+
+# Start Kohya GUI
+CMD ["python", "kohya_gui.py", "--listen", "0.0.0.0", "--server_port", "3000"]
