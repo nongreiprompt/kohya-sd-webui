@@ -14,13 +14,10 @@ WORKDIR /workspace/kohya_ss
 
 # Install Python packages
 RUN pip install --upgrade pip && \
-    pip install -r requirements.txt \
-    gradio \
-    torch \
-    torchvision
+    pip install -r requirements.txt
 
 # Expose port untuk GUI
 EXPOSE 3000
 
-# Command default untuk start Kohya SS
-CMD ["python", "kohya_gui.py"]
+# Keep container alive
+CMD ["tail", "-f", "/dev/null"]
