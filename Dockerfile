@@ -1,12 +1,17 @@
-FROM python:3.10-slim
-
-# Install dependencies sistem
-RUN apt-get update && apt-get install -y \
-    git \
-    wget \
-    && rm -rf /var/lib/apt/lists/*
+FROM runpod/pytorch:2.0.1-py3.10-cuda11.8.0-devel-ubuntu22.04
 
 WORKDIR /workspace
 
-# Keep container running
-CMD ["tail", "-f", "/dev/null"]
+# Install git
+RUN apt-get update && apt-get install -y git
+
+# Clone Kohya
+RUN git clone https://github.com/bmaltais/kohya_ss.git
+
+WORKDIR /workspace/kohya_ss
+
+# Install requirements
+RUN pip install -r requirements.txt
+
+# Keep alive
+CMD ["sleep", "infinity"]
