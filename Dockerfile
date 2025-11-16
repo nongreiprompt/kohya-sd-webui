@@ -7,15 +7,16 @@ RUN apt-get update && apt-get install -y \
     python3.10 \
     python3-pip \
     git \
-    wget
+    wget \
+    ca-certificates
 
 # Set Python default
 RUN ln -s /usr/bin/python3.10 /usr/bin/python
 
 WORKDIR /workspace
 
-# Clone Kohya
-RUN git clone https://github.com/bmaltais/kohya_ss.git
+# Clone Kohya dengan verbose
+RUN git clone --verbose https://github.com/bmaltais/kohya_ss.git
 
 WORKDIR /workspace/kohya_ss
 
