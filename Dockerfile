@@ -1,13 +1,20 @@
-FROM runpod/stable-diffusion-webui:latest
+FROM pytorch/pytorch:2.0.1-cuda11.7-cudnn8-runtime
 
-# Update pip dan instalasi dependencies
+# Update sistem
+RUN apt-get update && apt-get install -y \
+    git \
+    python3-pip \
+    wget
+
+# Install dependencies
 RUN pip install --upgrade pip && \
     pip install \
     torch \
     torchvision \
     xformers \
     diffusers \
-    transformers
+    transformers \
+    accelerate
 
 # Clone Kohya
 RUN git clone https://github.com/bmaltais/kohya_ss.git /workspace/kohya_ss
