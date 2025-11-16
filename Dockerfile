@@ -1,23 +1,17 @@
-FROM python:3.10-slim
+FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
 
-# Install dependencies sistem
+# Install Python dan dependencies
 RUN apt-get update && apt-get install -y \
+    python3.10 \
+    python3-pip \
     git \
     wget \
-    python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
-# Clone Kohya
-RUN git clone https://github.com/bmaltais/kohya_ss.git /workspace/kohya_ss
+# Set Python3.10 sebagai default
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.10 1
 
-WORKDIR /workspace/kohya_ss
+WORKDIR /workspace
 
-# Install Python packages
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
-
-# Expose port untuk GUI
-EXPOSE 3000
-
-# Keep container alive
-CMD ["tail", "-f", "/dev/null"]
+# Keep alive dengan bash
+CMD ["/bin/bash", "-c", "while true; do sleep 3600; done"]
